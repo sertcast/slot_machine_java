@@ -3,25 +3,17 @@ import hsa.Console;
 import java.awt.*;
 import java.util.Random;
 public class SlotMachine {
-	public static Shape shape1;
-	public static Shape shape2;
-	public static Shape shape3;
-	public static Console console;
-	public static boolean running;
-	public static boolean turning;
-	public static Random randNum;
-	public static double timer;
+
+	private static Shape []slots;
+	private static Console console;
+	private static boolean running;
+	private static boolean turning;
+	private static Random randNum;
+	private static double timer;
+	private static final String []shapes = {"ellipse", "rectangle", "star"};
  
 	public static void main(String []a) throws InterruptedException {
-		console = new Console(40, 100, 20);
-		randNum = new Random();
-		final String []shapes = {"ellipse", "rectangle", "star"};
-		running = true;
-		turning = true;
-		shape1 = new Shape(console, "ellipse", 0, 0, 100, 100);
-		shape2 = new Shape(console, "rectangle", 200, 0, 100, 100);
-		shape3 = new Shape(console, "star", 400, 0, 100, 100);
-		timer = 0;
+		init();
 		int input;
 		while(running){
 			if(!turning){
@@ -33,26 +25,51 @@ public class SlotMachine {
 		            running = false;
 		        }
 			}else{
-				shape1.fill(new Color(randNum.nextInt(255),randNum.nextInt(255),randNum.nextInt(255)));
-		        shape1.setType(shapes[randNum.nextInt(3)]);
-		        shape2.fill(new Color(randNum.nextInt(255),randNum.nextInt(255),randNum.nextInt(255)));
-		        shape2.setType(shapes[randNum.nextInt(3)]);
-		        shape3.fill(new Color(randNum.nextInt(255),randNum.nextInt(255),randNum.nextInt(255)));
-		        shape3.setType(shapes[randNum.nextInt(3)]);
+				for(int i = 0; i < slots.length; i++) {
+					slots[i].fill(new Color(randNum.nextInt(255),randNum.nextInt(255),randNum.nextInt(255)));
+					slots[i].setType(shapes[randNum.nextInt(3)]);
+				}
 		        Thread.sleep((int)(timer*1000));
 		        console.clear();
 		        timer+=0.05;
-		        shape1.display();
-		        shape2.display();
-		        shape3.display();
+		        for(int i = 0; i < slots.length; i++) {
+		        		slots[i].display();
+		        }
 		        if(timer >= 0.75){
 		            turning = false;
-		            console.setColor(new Color(255,0,0));
-		            console.drawString("to try again press enter", 0, 200);
+		            if(!win()) {
+		            		console.setColor(new Color(255,0,0));
+		            		console.drawString("to try again press enter", 0, 200);
+		            }else {
+		            		console.setColor(new Color(0,0,255));
+		            		console.drawString("NICE JOB. to play again press enter", 0, 200);
+		            }
 		            console.setColor(new Color(0,0,0,0));
 		        }
 		     }
 		  }
 		  console.close();
- }
+	}
+	private static void init() {
+		console = new Console(40, 100, 20);
+		randNum = new Random();
+		slots = new Shape[3];
+		slots[0] = new Shape(console, "ellipse", 0, 0, 100, 100);
+		slots[1] = new Shape(console, "rectangle", 200, 0, 100, 100);
+		slots[2] = new Shape(console, "star", 400, 0, 100, 100);
+		running = true;
+		turning = true;
+		timer = 0;
+	}
+	private static boolean win() {
+		boolean check = true;
+		for(int i = 1; i < slots.length; i++) {
+			if(slots[0].getType() != slots[i].getType()) {
+				check = false;
+				break;
+			}
+			if(!check)break;
+		}
+		return check;
+	}
 }

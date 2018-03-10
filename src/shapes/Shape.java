@@ -69,7 +69,11 @@ public class Shape {
 		 this.xPos += x;
 		 this.yPos += y;
 	 }
-	 
+	 public String getType() {
+		 return this.type;
+	 }
+	 /****  STATIC METHODS  ****/
+	 /*** DRAWS ELLIPSE***/
 	 public static void drawEllipse(Console console, int x, int y, int w, int h) {
 		console.setColor(new Color(255, 255, 255, 255));
 	  	console.fillOval(x, y, w, h);
@@ -88,14 +92,14 @@ public class Shape {
 		console.setColor(stroke_colour);
 		console.drawOval(x, y, w, h);
 	 }
-	 
+	 /***DRAWS RECTANGLE***/
 	 public static void drawRectangle(Console console, int x, int y, int w, int h) {
 		console.setColor(new Color(255, 255, 255, 255));
 		console.fillRect(x, y, w, h);
 		console.setColor(new Color(0, 0, 0));
 		console.drawRect(x, y, w, h);
 	 }
-	 public static void drawRectangle(Console console, int x, int y, int w, int h, Color colour) {
+ 	 public static void drawRectangle(Console console, int x, int y, int w, int h, Color colour) {
 		console.setColor(colour);
 		console.fillRect(x, y, w, h);
 		console.setColor(new Color(0, 0, 0));
@@ -107,7 +111,7 @@ public class Shape {
 		console.setColor(stroke_colour);
 		console.drawRect(x, y, w, h);
 	 }
-	 
+	 /***DRAWS STAR***/
 	 public static void drawStar(Console console , int x, int y, int w, int h) {
 		console.setColor(new Color(255, 255, 255, 255));
 		console.fillStar(x, y, w, h);
